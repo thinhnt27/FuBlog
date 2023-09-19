@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
@@ -30,11 +31,13 @@ public class UserServiceImpl implements UserService{
     private Hashing hashing;
 
     private PasswordEncoder passwordEncoder;
+
+
     @Override
     public UserEntity saveUser(UserEntity user) {
 //        String pass = hashing.hasdPassword(user.getHashed_password());
 //        user.setHashed_password(pass);
-        user.setHashed_password(passwordEncoder.encode(user.getPassword()));
+        user.setHashedpassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

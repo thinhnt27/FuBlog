@@ -1,6 +1,8 @@
 package tech.fublog.FuBlog.controller;
 
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 import tech.fublog.FuBlog.auth.AuthenticationReponse;
 import tech.fublog.FuBlog.auth.AuthenticationRequest;
 import tech.fublog.FuBlog.auth.MessageResponse;
@@ -15,19 +17,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 
 @RestController
 @RequestMapping("api/v1/auth")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = {"http://localhost:5173", "https://fublog.tech"})
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
 
@@ -43,8 +43,27 @@ public class AuthenticationController {
     PasswordEncoder encoder;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationReponse> login(@RequestBody AuthenticationRequest authenticationRequest){
-    return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        Optional<UserEntity> o_user = userRepository.findByUsername(authenticationRequest.getUsername());
+        if(o_user.isPresent()){
+            String encodedPasswordFromDatabase  = o_user.get().getPassword();
+//            if (!userRepository.existsByUsername(authenticationRequest.getUsername()))
+//                return ResponseEntity.badRequest().body(new MessageResponse("Error: User or password are incorect"));
+//            else
+                if(!passwordEncoder.matches(authenticationRequest.getPassword(),encodedPasswordFromDatabase)){
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username or password is wrong!"));
+            }else{
+                return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
+            }
+        }else return ResponseEntity.badRequest().body(new MessageResponse("Error: Username or password is wrong!"));
+//        String encodedPasswordFromDatabase  = getEncodedPasswordFromDatabase(authenticationRequest.getUsername());
+        //        }else if((storedPassword != hashedPassword))
+        //        if (!userRepository.existsByUsername(authenticationRequest.getUsername())) {
+        //            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username or password is wrong!"));
+
+
     }
 
     @PostMapping("/signup")
