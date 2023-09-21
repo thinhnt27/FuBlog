@@ -7,6 +7,7 @@ import tech.fublog.FuBlog.auth.AuthenticationReponse;
 import tech.fublog.FuBlog.auth.AuthenticationRequest;
 import tech.fublog.FuBlog.auth.MessageResponse;
 import tech.fublog.FuBlog.auth.SignupRequest;
+import tech.fublog.FuBlog.entity.BlogPostEntity;
 import tech.fublog.FuBlog.entity.RoleEntity;
 import tech.fublog.FuBlog.entity.UserEntity;
 import tech.fublog.FuBlog.repository.RoleRepository;
@@ -17,8 +18,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import tech.fublog.FuBlog.service.UserServiceImpl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,6 +44,14 @@ public class AuthenticationController {
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    UserServiceImpl userService;
+
+    @GetMapping("/getAllUser")
+    public List<UserEntity> getAllUser(){
+        return  userService.getAllUser();
+    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){

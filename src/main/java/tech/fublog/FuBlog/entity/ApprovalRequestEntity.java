@@ -19,9 +19,9 @@ public class ApprovalRequestEntity {
     @Column
     private boolean isApproved;
 
-    @ManyToOne
-    @JoinColumn(name = "request_id")
-    private UserEntity request;
+//    @ManyToOne
+//    @JoinColumn(name = "request_id")
+//    private UserEntity request;
 
     @ManyToOne
     @JoinColumn(name = "review_id")

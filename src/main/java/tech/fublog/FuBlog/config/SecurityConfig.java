@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/demo/test").hasAnyAuthority("USER")
+                .requestMatchers("/**").permitAll()
 //
 //                .anyRequest().authenticated();
 //        http.authenticationProvider(authenticationProvider);

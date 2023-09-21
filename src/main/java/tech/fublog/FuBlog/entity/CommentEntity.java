@@ -34,4 +34,7 @@ public class CommentEntity {
     @JoinColumn(name = "post_id")
     private BlogPostEntity postComment;
 
+    @ManyToOne
+    @JoinColumn(name = "parentCommentId")
+    private CommentEntity parentComment;
 }

@@ -1,5 +1,6 @@
 package tech.fublog.FuBlog.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -62,15 +63,19 @@ public class BlogPostEntity {
 //    private UserEntity authorsModified;
 
     @OneToMany(mappedBy = "postVote")
+    @JsonIgnore
     private Set<VoteEntity> votes = new HashSet<>();
 
     @OneToMany(mappedBy = "blogPost")
+    @JsonIgnore
     private Set<ApprovalRequestEntity> approvalRequests = new HashSet<>();
 
     @OneToMany(mappedBy = "postComment")
+    @JsonIgnore
     private Set<CommentEntity> postComments = new HashSet<>();
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private Set<PostTagEntity> postTags = new HashSet<>();
 
 //    @ManyToMany(mappedBy = "blogPosts")
