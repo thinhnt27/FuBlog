@@ -105,20 +105,19 @@ public class AuthenticationController {
                 AuthenticationRequest authenticationRequest = new AuthenticationRequest(signUpRequest.getEmail(), signUpRequest.getPassword());
                 return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
             }
-        } else {
-            UserEntity user = new UserEntity(signUpRequest.getFullName(),
-                    signUpRequest.getEmail(),
-                    signUpRequest.getEmail(),
-                    encoder.encode(signUpRequest.getPassword()),
-                    true
-            );
-            Set<RoleEntity> roleEntities = new HashSet<>();
-            RoleEntity userRole = roleRepository.findByName("USER");
-            roleEntities.add(userRole);
-            user.setRoles(roleEntities);
-            userRepository.save(user);
-            AuthenticationRequest authenticationRequest = new AuthenticationRequest(signUpRequest.getEmail(), signUpRequest.getPassword());
-            return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
         }
+        UserEntity user = new UserEntity(signUpRequest.getFullName(),
+                signUpRequest.getEmail(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),
+                true
+        );
+        Set<RoleEntity> roleEntities = new HashSet<>();
+        RoleEntity userRole = roleRepository.findByName("USER");
+        roleEntities.add(userRole);
+        user.setRoles(roleEntities);
+        userRepository.save(user);
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest(signUpRequest.getEmail(), signUpRequest.getPassword());
+        return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
     }
 }
