@@ -37,6 +37,9 @@ public class UserEntity implements UserDetails {
     private String hashedpassword;
 
     @Column
+    private String picture;
+
+    @Column
     private  Boolean status;
 
     @Column
@@ -87,11 +90,12 @@ public class UserEntity implements UserDetails {
     inverseJoinColumns = @JoinColumn(name = "Roles_Id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
-    public UserEntity(String fullName, String username, String email, String hashedpassword, Boolean status) {
+    public UserEntity(String fullName, String username, String email, String hashedpassword, String picture, Boolean status) {
         this.fullName = fullName;
         this.username = username;
         this.email = email;
         this.hashedpassword = hashedpassword;
+        this.picture = picture;
         this.status = status;
     }
 

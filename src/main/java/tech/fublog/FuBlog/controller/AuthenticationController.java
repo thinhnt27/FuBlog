@@ -90,6 +90,7 @@ public class AuthenticationController {
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getPicture(),
                 true
         );
 
@@ -121,6 +122,7 @@ public class AuthenticationController {
                 signUpRequest.getEmail(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getPicture(),
                 true
         );
         Set<RoleEntity> roleEntities = new HashSet<>();
